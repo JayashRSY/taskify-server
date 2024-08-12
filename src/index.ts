@@ -15,6 +15,9 @@ import connectDB from './utils/mongo.ts';
 import errorHandler from './middlewares/errorHandler.ts';
 import authRoutes from './routes/auth.route.ts'
 import userRoutes from './routes/user.route.ts'
+import boardRoutes from './routes/board.route.ts'
+import columnRoutes from './routes/column.route.ts'
+import ticketRoutes from './routes/ticket.route.ts'
 
 
 
@@ -56,6 +59,9 @@ app.use('/status', async (req, res, next) => {
 })
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
+app.use("/api/board", boardRoutes);
+app.use("/api/column", columnRoutes);
+app.use("/api/ticket", ticketRoutes);
 
 // Error Handling Middleware
 // app.use((err: any, req: Request, res: Response, next: NextFunction) => {
