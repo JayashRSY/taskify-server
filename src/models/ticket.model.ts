@@ -9,10 +9,10 @@ interface ITicket extends Document {
     dueDate?: Date;
     labels?: string[];
     assignee?: string;
-    boardId: mongoose.Types.ObjectId;
-    columnId: mongoose.Types.ObjectId;
+    boardId?: mongoose.Types.ObjectId;
+    columnId?: mongoose.Types.ObjectId;
     createdBy: string;
-    updatedBy?: string;
+    updatedBy: string;
 }
 
 // Mongoose schema for a Ticket
@@ -26,7 +26,6 @@ const TicketSchema: Schema = new Schema<ITicket>({
     },
     status: {
         type: String,
-        enum: ['to-do', 'in-progress', 'done'],
         default: 'to-do',
     },
     priority: {
@@ -47,12 +46,10 @@ const TicketSchema: Schema = new Schema<ITicket>({
     boardId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Board',
-        required: true,
     },
     columnId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Column',
-        required: true,
     },
     createdBy: {
         type: String,
@@ -60,6 +57,7 @@ const TicketSchema: Schema = new Schema<ITicket>({
     },
     updatedBy: {
         type: String,
+        required: true,
     },
 }, { timestamps: true });
 

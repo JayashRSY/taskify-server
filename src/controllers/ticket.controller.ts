@@ -2,36 +2,43 @@ import { Request, Response, NextFunction } from 'express';
 import TicketModel from "../models/ticket.model.ts";
 
 export const createTicket = async (req: Request, res: Response, next: NextFunction) => {
-    if (req.user?.role === "admin") {
-        const allTickets = await TicketModel.find({}, 'name email profilePicture role updatedAt createdAt').lean();
-        res.status(200)
-            .json({
-                success: true,
-                message: "Tickets fetched successfully",
-                data: allTickets,
-            })
-    } else {
-        res.status(402).json({
-            success: false,
-            message: "Unauthorized"
-        })
+    const { title, description, dueDate, labels, assignee, status, priority } = req.body;
+    if (!title || !status || !priority) {
+        return res.status(400).json({ message: 'title, status and priority are required fields' });
     }
-}
+    if (!req.user?.email) {
+        return res.status(400).json({ message: 'Unauthorized' });
+    }
+
+    const newTicket = await TicketModel.create({
+        title,
+        description,
+        dueDate,
+        labels,
+        assignee,
+        status,
+        priority,
+        createdBy: req.user.email,
+        updatedBy: req.user.email,
+    });
+
+    res.status(201).json({
+        success: true,
+        message: "Ticket created successfully",
+        data: newTicket,
+    });
+};
 export const getTickets = async (req: Request, res: Response, next: NextFunction) => {
-    if (req.user?.role === "admin") {
-        const allTickets = await TicketModel.find({}, 'name email profilePicture role updatedAt createdAt').lean();
-        res.status(200)
-            .json({
-                success: true,
-                message: "Tickets fetched successfully",
-                data: allTickets,
-            })
-    } else {
-        res.status(402).json({
-            success: false,
-            message: "Unauthorized"
-        })
+    if (!req.user?.email) {
+        return res.status(400).json({ message: 'Unauthorized' });
     }
+    const allTickets = await TicketModel.find({ createdBy: req.user.email }).lean();
+    res.status(200)
+        .json({
+            success: true,
+            message: "Tickets fetched successfully",
+            data: allTickets,
+        })
 }
 export const getTicket = async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
@@ -94,49 +101,37 @@ export const deleteTicket = async (req: Request, res: Response, next: NextFuncti
     }
 }
 export const updateTicket = async (req: Request, res: Response, next: NextFunction) => {
-    const { name, email, profilePicture, password } = req.body;
+    const { id } = req.params;
+    const { title, description, dueDate, labels, assignee, status, priority } = req.body;
 
-    if (!email) {
-        return res.status(400).json({
-            success: false,
-            message: "Email is required",
-        });
+    if (!req.user?.email) {
+        return res.status(400).json({ success: false, message: 'Unauthorized' });
     }
-
-    if (!password) {
-        return res.status(400).json({
-            success: false,
-            message: "Password is required",
-        });
+    if (!id) {
+        return res.status(400).json({ success: false, message: 'Ticket id is required' });
     }
+    const updatedTicket = await TicketModel.findByIdAndUpdate(id, {
+        title,
+        description,
+        dueDate,
+        labels,
+        assignee,
+        status,
+        priority,
+        createdBy: req.user.email,
+        updatedBy: req.user.email,
+    });
 
-    if (req.user?._id) {
-        try {
-            const ticket = await TicketModel.findByIdAndUpdate(
-                req.user._id,
-                { name, email, profilePicture, password },
-                { new: true }
-            );
-
-            if (!ticket) {
-                return res.status(404).json({
-                    success: false,
-                    message: "No ticket found",
-                });
-            }
-
-            return res.status(200).json({
-                success: true,
-                message: "Ticket updated successfully",
-                data: ticket,
-            });
-        } catch (error) {
-            next(error); // Forward the error to the error handling middleware
-        }
+    if (updatedTicket) {
+        return res.status(200).json({
+            success: true,
+            message: "Ticket updated successfully",
+            data: updatedTicket,
+        });
     } else {
-        return res.status(402).json({
+        return res.status(404).json({
             success: false,
-            message: "Unauthorized",
+            message: "Ticket not found",
         });
     }
 };
