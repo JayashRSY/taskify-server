@@ -31,5 +31,12 @@ const ColumnSchema: Schema = new Schema<IColumn>({
     },
 }, { timestamps: true });
 
+ColumnSchema.methods.toJSON = function () {
+    const doc = this.toObject();
+    delete doc.__v; // remove version key
+
+    return doc;
+};
+
 const ColumnModel = mongoose.model<IColumn>('Column', ColumnSchema);
 export default ColumnModel

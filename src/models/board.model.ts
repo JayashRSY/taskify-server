@@ -31,5 +31,12 @@ const BoardSchema: Schema = new Schema<IBoard>({
     },
 }, { timestamps: true });
 
+BoardSchema.methods.toJSON = function () {
+    const doc = this.toObject();
+    delete doc.__v; // remove version key
+
+    return doc;
+};
+
 const BoardModel = mongoose.model<IBoard>('Board', BoardSchema);
 export default BoardModel

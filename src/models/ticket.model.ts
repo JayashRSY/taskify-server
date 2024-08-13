@@ -61,5 +61,12 @@ const TicketSchema: Schema = new Schema<ITicket>({
     },
 }, { timestamps: true });
 
+TicketSchema.methods.toJSON = function () {
+    const doc = this.toObject();
+    delete doc.__v; // remove version key
+
+    return doc;
+};
+
 const TicketModel = mongoose.model<ITicket>('Ticket', TicketSchema);
 export default TicketModel

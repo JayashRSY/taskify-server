@@ -120,7 +120,7 @@ export const updateTicket = async (req: Request, res: Response, next: NextFuncti
         priority,
         createdBy: req.user.email,
         updatedBy: req.user.email,
-    });
+    }, { new: true });
 
     if (updatedTicket) {
         return res.status(200).json({
