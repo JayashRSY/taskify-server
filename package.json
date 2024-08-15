@@ -2,12 +2,11 @@
   "name": "taskify-server",
   "version": "1.0.0",
   "description": "",
-  "main": "./src/index.ts",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon ./src/index.ts",
-    "start": "node ./src/index.ts",
-    "build": "tsc --project ."
+    "start": "nodemon",
+    "build": "tsc"
   },
   "author": "",
   "license": "ISC",
