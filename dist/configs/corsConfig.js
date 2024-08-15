@@ -3,7 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const allowedOrigins = [
     'http://localhost:3000',
     'http://localhost:4200',
-    'http://localhost:5173'
+    'http://localhost:5173',
+    'https://taskify-me.vercel.app'
 ];
 const corsOptions = {
     origin: (origin, callback) => {
