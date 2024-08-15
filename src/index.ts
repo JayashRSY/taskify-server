@@ -9,10 +9,10 @@ import compression from 'compression';
 import httpStatus from 'http-status';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import corsOptions from './configs/corsConfig.ts';
-import connectDB from './utils/mongo.ts';
-// import { logger } from './middlewares/logger.ts';
-import errorHandler from './middlewares/errorHandler.ts';
+import corsOptions from './configs/corsConfig.js';
+import connectDB from './utils/mongo.js';
+// import { logger } from './middlewares/logger.js';
+import errorHandler from './middlewares/errorHandler.js';
 import authRoutes from './routes/authRoute.ts'
 import userRoutes from './routes/userRoute.ts'
 import boardRoutes from './routes/boardRoute.ts'
