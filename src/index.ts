@@ -13,11 +13,11 @@ import corsOptions from './configs/corsConfig.js';
 import connectDB from './utils/mongo.js';
 // import { logger } from './middlewares/logger.js';
 import errorHandler from './middlewares/errorHandler.js';
-import authRoutes from './routes/authRoute.ts'
-import userRoutes from './routes/userRoute.ts'
-import boardRoutes from './routes/boardRoute.ts'
-import columnRoutes from './routes/columnRoute.ts'
-import ticketRoutes from './routes/ticketRoute.ts'
+import authRoutes from './routes/authRoute.js'
+import userRoutes from './routes/userRoute.js'
+import boardRoutes from './routes/boardRoute.js'
+import columnRoutes from './routes/columnRoute.js'
+import ticketRoutes from './routes/ticketRoute.js'
 
 
 
