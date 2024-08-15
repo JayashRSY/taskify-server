@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import UserModel from "../models/userModel.ts";
+import UserModel from "../models/userModel.js";
 
 export const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
     if (req.user?.role === "admin") {

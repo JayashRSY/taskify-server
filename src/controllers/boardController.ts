@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import BoardModel from "../models/boardModel.ts";
+import BoardModel from "../models/boardModel.js";
 
 export const createBoard = async (req: Request, res: Response, next: NextFunction) => {
     console.log("🚀 ~ file: Board.controller.ts:6 ~ req.body:", req.body);
