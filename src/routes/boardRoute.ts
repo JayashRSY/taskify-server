@@ -6,7 +6,7 @@ import {
     getBoard,
     deleteBoard,
     updateBoard
-} from '../controllers/board.controller.ts';
+} from '../controllers/boardController.ts';
 import { verifyToken } from '../middlewares/verifyToken.ts';
 
 router.post('/createBoard', verifyToken, createBoard);

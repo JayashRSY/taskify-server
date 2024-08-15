@@ -1,14 +1,37 @@
 import { Request, Response, NextFunction } from 'express';
-import ColumnModel from "../models/column.model.ts";
+import BoardModel from "../models/boardModel.ts";
 
-export const createColumn = async (req: Request, res: Response, next: NextFunction) => {
+export const createBoard = async (req: Request, res: Response, next: NextFunction) => {
+    console.log("🚀 ~ file: Board.controller.ts:6 ~ req.body:", req.body);
+    const { name, description } = req.body;
+
+    if (!name) {
+        return res.status(400).json({ message: 'Board name is required' });
+    }
+    if (!req.user?.email) {
+        return res.status(400).json({ message: 'Unauthorized' });
+    }
+
+    const newBoard = await BoardModel.create({
+        name,
+        description,
+        createdBy: req.user.email,
+    });
+
+    res.status(201).json({
+        success: true,
+        message: "Board created successfully",
+        data: newBoard,
+    });
+};
+export const getBoards = async (req: Request, res: Response, next: NextFunction) => {
     if (req.user?.role === "admin") {
-        const allColumns = await ColumnModel.find({}, 'name email profilePicture role updatedAt createdAt').lean();
+        const allBoards = await BoardModel.find({}, 'name email profilePicture role updatedAt createdAt').lean();
         res.status(200)
             .json({
                 success: true,
-                message: "Columns fetched successfully",
-                data: allColumns,
+                message: "Boards fetched successfully",
+                data: allBoards,
             })
     } else {
         res.status(402).json({
@@ -17,43 +40,27 @@ export const createColumn = async (req: Request, res: Response, next: NextFuncti
         })
     }
 }
-export const getColumns = async (req: Request, res: Response, next: NextFunction) => {
-    if (req.user?.role === "admin") {
-        const allColumns = await ColumnModel.find({}, 'name email profilePicture role updatedAt createdAt').lean();
-        res.status(200)
-            .json({
-                success: true,
-                message: "Columns fetched successfully",
-                data: allColumns,
-            })
-    } else {
-        res.status(402).json({
-            success: false,
-            message: "Unauthorized"
-        })
-    }
-}
-export const getColumn = async (req: Request, res: Response, next: NextFunction) => {
+export const getBoard = async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
     if (!id) {
         res.status(400).json({
             success: false,
-            message: "Column id is required"
+            message: "Board id is required"
         })
     }
     if (req.user?._id === id) {
-        const column = await ColumnModel.findById(id).lean();
-        if (!column) {
+        const board = await BoardModel.findById(id).lean();
+        if (!board) {
             res.status(404).json({
                 success: false,
-                message: 'Column not found'
+                message: 'Board not found'
             })
         }
         res.status(200)
             .json({
                 success: true,
-                message: "Column fetched successfully",
-                data: column,
+                message: "Board fetched successfully",
+                data: board,
             })
     } else {
         res.status(402).json({
@@ -64,27 +71,27 @@ export const getColumn = async (req: Request, res: Response, next: NextFunction)
 
 }
 
-export const deleteColumn = async (req: Request, res: Response, next: NextFunction) => {
+export const deleteBoard = async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.body
     if (!id) {
         res.status(400).json({
             success: false,
-            message: "Column id is required"
+            message: "Board id is required"
         })
     }
     if (req.user?._id === id) {
-        const column = await ColumnModel.findByIdAndDelete(id).lean();
-        if (!column) {
+        const board = await BoardModel.findByIdAndDelete(id).lean();
+        if (!board) {
             res.status(404).json({
                 success: false,
-                message: 'Column not found'
+                message: 'Board not found'
             })
         }
         res.status(200)
             .json({
                 success: true,
-                message: "Column deleted successfully",
-                data: column,
+                message: "Board deleted successfully",
+                data: board,
             })
     } else {
         res.status(402).json({
@@ -93,7 +100,7 @@ export const deleteColumn = async (req: Request, res: Response, next: NextFuncti
         })
     }
 }
-export const updateColumn = async (req: Request, res: Response, next: NextFunction) => {
+export const updateBoard = async (req: Request, res: Response, next: NextFunction) => {
     const { name, email, profilePicture, password } = req.body;
 
     if (!email) {
@@ -112,23 +119,23 @@ export const updateColumn = async (req: Request, res: Response, next: NextFuncti
 
     if (req.user?._id) {
         try {
-            const column = await ColumnModel.findByIdAndUpdate(
+            const board = await BoardModel.findByIdAndUpdate(
                 req.user._id,
                 { name, email, profilePicture, password },
                 { new: true }
             );
 
-            if (!column) {
+            if (!board) {
                 return res.status(404).json({
                     success: false,
-                    message: "No column found",
+                    message: "No board found",
                 });
             }
 
             return res.status(200).json({
                 success: true,
-                message: "Column updated successfully",
-                data: column,
+                message: "Board updated successfully",
+                data: board,
             });
         } catch (error) {
             next(error); // Forward the error to the error handling middleware

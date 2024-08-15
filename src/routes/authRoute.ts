@@ -7,7 +7,7 @@ import {
     google,
     signout,
     refresh,
-} from '../controllers/auth.controller.ts';
+} from '../controllers/authController.ts';
 
 router.post('/signup', signup);
 router.post('/signin', loginLimiter, signin);

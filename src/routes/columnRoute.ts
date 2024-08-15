@@ -6,7 +6,7 @@ import {
     getColumn,
     deleteColumn,
     updateColumn
-} from '../controllers/column.controller.ts';
+} from '../controllers/columnController.ts';
 import { verifyToken } from '../middlewares/verifyToken.ts';
 
 router.post('/createColumn', verifyToken, createColumn);

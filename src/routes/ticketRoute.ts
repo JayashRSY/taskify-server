@@ -6,7 +6,7 @@ import {
     getTicket,
     deleteTicket,
     updateTicket
-} from '../controllers/ticket.controller.ts';
+} from '../controllers/ticketController.ts';
 import { verifyToken } from '../middlewares/verifyToken.ts';
 
 router.post('/createTicket', verifyToken, createTicket);

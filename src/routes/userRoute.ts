@@ -5,7 +5,7 @@ import {
     getUser,
     deleteUser,
     updateUser
-} from '../controllers/user.controller.ts';
+} from '../controllers/userController.ts';
 import { verifyToken } from '../middlewares/verifyToken.ts';
 
 router.get('/getAllUsers', verifyToken, getAllUsers);

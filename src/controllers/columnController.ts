@@ -1,14 +1,14 @@
 import { Request, Response, NextFunction } from 'express';
-import UserModel from "../models/user.model.ts";
+import ColumnModel from "../models/columnModel.ts";
 
-export const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
+export const createColumn = async (req: Request, res: Response, next: NextFunction) => {
     if (req.user?.role === "admin") {
-        const allUsers = await UserModel.find({}, 'name email profilePicture role updatedAt createdAt').lean();
+        const allColumns = await ColumnModel.find({}, 'name email profilePicture role updatedAt createdAt').lean();
         res.status(200)
             .json({
                 success: true,
-                message: "Users fetched successfully",
-                data: allUsers,
+                message: "Columns fetched successfully",
+                data: allColumns,
             })
     } else {
         res.status(402).json({
@@ -17,27 +17,43 @@ export const getAllUsers = async (req: Request, res: Response, next: NextFunctio
         })
     }
 }
-export const getUser = async (req: Request, res: Response, next: NextFunction) => {
+export const getColumns = async (req: Request, res: Response, next: NextFunction) => {
+    if (req.user?.role === "admin") {
+        const allColumns = await ColumnModel.find({}, 'name email profilePicture role updatedAt createdAt').lean();
+        res.status(200)
+            .json({
+                success: true,
+                message: "Columns fetched successfully",
+                data: allColumns,
+            })
+    } else {
+        res.status(402).json({
+            success: false,
+            message: "Unauthorized"
+        })
+    }
+}
+export const getColumn = async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
     if (!id) {
         res.status(400).json({
             success: false,
-            message: "User id is required"
+            message: "Column id is required"
         })
     }
     if (req.user?._id === id) {
-        const user = await UserModel.findById(id).lean();
-        if (!user) {
+        const column = await ColumnModel.findById(id).lean();
+        if (!column) {
             res.status(404).json({
                 success: false,
-                message: 'User not found'
+                message: 'Column not found'
             })
         }
         res.status(200)
             .json({
                 success: true,
-                message: "User fetched successfully",
-                data: user,
+                message: "Column fetched successfully",
+                data: column,
             })
     } else {
         res.status(402).json({
@@ -48,27 +64,27 @@ export const getUser = async (req: Request, res: Response, next: NextFunction) =
 
 }
 
-export const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
+export const deleteColumn = async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.body
     if (!id) {
         res.status(400).json({
             success: false,
-            message: "User id is required"
+            message: "Column id is required"
         })
     }
     if (req.user?._id === id) {
-        const user = await UserModel.findByIdAndDelete(id).lean();
-        if (!user) {
+        const column = await ColumnModel.findByIdAndDelete(id).lean();
+        if (!column) {
             res.status(404).json({
                 success: false,
-                message: 'User not found'
+                message: 'Column not found'
             })
         }
         res.status(200)
             .json({
                 success: true,
-                message: "User deleted successfully",
-                data: user,
+                message: "Column deleted successfully",
+                data: column,
             })
     } else {
         res.status(402).json({
@@ -77,7 +93,7 @@ export const deleteUser = async (req: Request, res: Response, next: NextFunction
         })
     }
 }
-export const updateUser = async (req: Request, res: Response, next: NextFunction) => {
+export const updateColumn = async (req: Request, res: Response, next: NextFunction) => {
     const { name, email, profilePicture, password } = req.body;
 
     if (!email) {
@@ -96,23 +112,23 @@ export const updateUser = async (req: Request, res: Response, next: NextFunction
 
     if (req.user?._id) {
         try {
-            const user = await UserModel.findByIdAndUpdate(
+            const column = await ColumnModel.findByIdAndUpdate(
                 req.user._id,
                 { name, email, profilePicture, password },
                 { new: true }
             );
 
-            if (!user) {
+            if (!column) {
                 return res.status(404).json({
                     success: false,
-                    message: "No user found",
+                    message: "No column found",
                 });
             }
 
             return res.status(200).json({
                 success: true,
-                message: "User updated successfully",
-                data: user,
+                message: "Column updated successfully",
+                data: column,
             });
         } catch (error) {
             next(error); // Forward the error to the error handling middleware
