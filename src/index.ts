@@ -54,7 +54,7 @@ app.use(compression());
 // }
 
 // Routes
-app.use('/status', async (req, res, next) => {
+app.get('/', async (req, res, next) => {
     res.status(200).send({ message: "Server is up and running" })
 })
 app.use("/api/auth", authRoutes);
