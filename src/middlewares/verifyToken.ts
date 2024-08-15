@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
-import { errorHandler } from '../utils/error.js'; // Adjust the path as needed
-import { UserPayload } from '../types/custom.js';
+import { errorHandler } from '../utils/error'; // Adjust the path as needed
+import { UserPayload } from '../types/custom';
 
 
 export const verifyToken = (req: Request, res: Response, next: NextFunction): void => {

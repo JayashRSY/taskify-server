@@ -5,8 +5,8 @@ import {
     getUser,
     deleteUser,
     updateUser
-} from '../controllers/userController.js';
-import { verifyToken } from '../middlewares/verifyToken.js';
+} from '../controllers/userController';
+import { verifyToken } from '../middlewares/verifyToken';
 
 router.get('/getAllUsers', verifyToken, getAllUsers);
 router.get('/getUser', verifyToken, getUser);

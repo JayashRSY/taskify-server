@@ -6,8 +6,8 @@ import {
     getBoard,
     deleteBoard,
     updateBoard
-} from '../controllers/boardController.js';
-import { verifyToken } from '../middlewares/verifyToken.js';
+} from '../controllers/boardController';
+import { verifyToken } from '../middlewares/verifyToken';
 
 router.post('/createBoard', verifyToken, createBoard);
 router.get('/getAllBoards', verifyToken, getBoards);

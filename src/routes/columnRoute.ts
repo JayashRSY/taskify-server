@@ -6,8 +6,8 @@ import {
     getColumn,
     deleteColumn,
     updateColumn
-} from '../controllers/columnController.js';
-import { verifyToken } from '../middlewares/verifyToken.js';
+} from '../controllers/columnController';
+import { verifyToken } from '../middlewares/verifyToken';
 
 router.post('/createColumn', verifyToken, createColumn);
 router.get('/getAllColumns', verifyToken, getColumns);

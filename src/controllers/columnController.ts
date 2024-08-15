@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import ColumnModel from "../models/columnModel.js";
+import ColumnModel from "../models/columnModel";
 
 export const createColumn = async (req: Request, res: Response, next: NextFunction) => {
     if (req.user?.role === "admin") {

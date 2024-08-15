@@ -6,8 +6,8 @@ import {
     getTicket,
     deleteTicket,
     updateTicket
-} from '../controllers/ticketController.js';
-import { verifyToken } from '../middlewares/verifyToken.js';
+} from '../controllers/ticketController';
+import { verifyToken } from '../middlewares/verifyToken';
 
 router.post('/createTicket', verifyToken, createTicket);
 router.get('/getTickets', verifyToken, getTickets);

@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import TicketModel from "../models/ticketModel.js";
+import TicketModel from "../models/ticketModel";
 
 export const createTicket = async (req: Request, res: Response, next: NextFunction) => {
     const { title, description, dueDate, labels, assignee, status, priority } = req.body;

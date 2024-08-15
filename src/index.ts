@@ -9,15 +9,15 @@ import compression from 'compression';
 import httpStatus from 'http-status';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import corsOptions from './configs/corsConfig.js';
-import connectDB from './utils/mongo.js';
-// import { logger } from './middlewares/logger.js';
-import errorHandler from './middlewares/errorHandler.js';
-import authRoutes from './routes/authRoute.js'
-import userRoutes from './routes/userRoute.js'
-import boardRoutes from './routes/boardRoute.js'
-import columnRoutes from './routes/columnRoute.js'
-import ticketRoutes from './routes/ticketRoute.js'
+import corsOptions from './configs/corsConfig';
+import connectDB from './utils/mongo';
+// import { logger } from './middlewares/logger';
+import errorHandler from './middlewares/errorHandler';
+import authRoutes from './routes/authRoute';
+import userRoutes from './routes/userRoute';
+import boardRoutes from './routes/boardRoute';
+import columnRoutes from './routes/columnRoute';
+import ticketRoutes from './routes/ticketRoute';
 
 
 

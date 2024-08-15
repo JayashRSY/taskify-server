@@ -2,9 +2,9 @@ import { Request, Response, NextFunction } from 'express';
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { OAuth2Client } from 'google-auth-library';
-import UserModel from "../models/userModel.js";
-import { createTokens } from '../utils/createTokens.js';
-import cookieConfig from '../configs/cookieConfig.js';
+import UserModel from "../models/userModel";
+import { createTokens } from '../utils/createTokens';
+import cookieConfig from '../configs/cookieConfig';
 
 export const signup = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
